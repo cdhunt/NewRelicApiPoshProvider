@@ -42,11 +42,10 @@ namespace NewRelicAPIPoshProvider.Paths
             var request = new RestRequest(Method.POST);
             request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
 
-            IRestResponse<List<Application>> response = client.Execute<List<Application>>(request);
+            IRestResponse<ListApplications> response = client.Execute<ListApplications>(request);
 
-            return from Application application in response.Data
-                   select new ApplicationPathNode(application) as IPathNode;
-
+            return from Application application in response.Data.Applications
+                        select new ApplicationPathNode(application) as IPathNode;
         }
     }
 
