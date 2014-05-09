@@ -22,3 +22,4 @@ This project uses:
 
  * [P2F](https://github.com/beefarino/p2f "PowerShell Provider Framework") by Jim Christopher
  * [RestSharp](https://github.com/restsharp/RestSharp "RestSharp")
+ * https://rpm.newrelic.com/api/explore/
