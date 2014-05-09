@@ -72,7 +72,7 @@ namespace NewRelicApiPoshProvider
 
         public override string Name
         {
-            get { return "ApiEndpoints"; }
+            get { return "Root"; }
         }
 
         public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)

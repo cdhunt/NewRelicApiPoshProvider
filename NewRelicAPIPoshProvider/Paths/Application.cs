@@ -27,7 +27,7 @@ namespace NewRelicAPIPoshProvider.Paths
 
         public override IPathValue GetNodeValue()
         {
-            return new LeafPathValue(_applications, Name);
+            return new ContainerPathValue(_applications, Name);
         }
 
         public override string Name
@@ -35,18 +35,38 @@ namespace NewRelicAPIPoshProvider.Paths
             get { return "Applications"; }
         }
 
-        //public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
-        //{
-        //    var client = new RestClient(_applications);
+        public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
+        {
+            var client = new RestClient(_applications);
 
-        //    var request = new RestRequest(Method.POST);
-        //    request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
 
-        //    IRestResponse<List<Application>> response = client.Execute<List<Application>>(request);
-            
-        //    return from Application application in response.Data
-        //           select application.Name as IPathNode;
+            IRestResponse<List<Application>> response = client.Execute<List<Application>>(request);
 
-        //}
+            return from Application application in response.Data
+                   select new ApplicationPathNode(application) as IPathNode;
+
+        }
+    }
+
+    class ApplicationPathNode : PathNodeBase
+    {
+        private readonly Application _application;
+
+        public ApplicationPathNode(Application application)
+        {
+            _application = application;
+        }
+
+        public override IPathValue GetNodeValue()
+        {
+            return new LeafPathValue(_application, Name);
+        }
+
+        public override string Name
+        {
+            get { return _application.Name; }
+        }
     }
 }
