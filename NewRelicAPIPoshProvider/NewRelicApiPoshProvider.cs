@@ -33,8 +33,6 @@ namespace NewRelicApiPoshProvider
 
     public class NewRelicApiDrive : Drive
     {        
-        
-
         public NewRelicApiDrive(PSDriveInfo driveInfo): base(driveInfo)
         {
         }
@@ -51,8 +49,6 @@ namespace NewRelicApiPoshProvider
     class EndpointListNode : PathNodeBase
     {
          List<IPathNode> endPointList = new List<IPathNode>();       
-
-        //private Dictionary<string, string> EndpointList = new Dictionary<string, string>();
 
         public EndpointListNode()
         {
@@ -77,13 +73,6 @@ namespace NewRelicApiPoshProvider
 
         public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
         {
-            //Dictionary<string, string>.KeyCollection keyColl = EndpointList.Keys;
-
-            //return from endpoint in EndpointList
-            //       select new EndpointListPathNode(endpoint.Key, endpoint.Value) as IPathNode;
-
-
-
             return endPointList;
         }
     }
