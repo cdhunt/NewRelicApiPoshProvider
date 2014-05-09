@@ -69,35 +69,42 @@ namespace NewRelicApiPoshProvider
 
         public override string Name
         {
-            get { return "a fucking string"; }
+            get { return "ApiEndpoints"; }
         }
 
         public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
         {
             Dictionary<string, string>.KeyCollection keyColl = EndpointList.Keys;
 
-            return from key in EndpointList.Keys
-                   select new EndpointListPathNode(key) as IPathNode;
+            return from endpoint in EndpointList
+                   select new EndpointListPathNode(endpoint.Key, endpoint.Value) as IPathNode;
         }
     }
 
     class EndpointListPathNode : PathNodeBase
     {
-        private readonly string _key;
+        private readonly string _model;
+        private readonly string _endpoint;
 
-        public EndpointListPathNode(string key)
+        public EndpointListPathNode(string key, string value)
         {
-            _key = key;
+            _model = key;
+            _endpoint = value;
         }
 
         public override IPathValue GetNodeValue()
         {
-            return new LeafPathValue(_key, Name);
+            return new LeafPathValue(_model, Name);
         }
 
         public override string Name
         {
-            get { return _key; }
+            get { return _model; }
+        }
+
+        public string Endpoint
+        {
+            get { return _endpoint; }
         }
     }
 }
