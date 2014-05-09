@@ -26,7 +26,7 @@ namespace NewRelicAPIPoshProvider.Paths
 
         public override IPathValue GetNodeValue()
         {
-            return new ContainerPathValue(_applications, Name);
+            return new ContainerPathValue(Name, Name);
         }
 
         public override string Name

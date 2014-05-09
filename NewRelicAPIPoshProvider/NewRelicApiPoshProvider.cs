@@ -53,6 +53,7 @@ namespace NewRelicApiPoshProvider
         public EndpointListNode()
         {
             endPointList.Add(new ApplicationsPathNode());
+            endPointList.Add(new ServersPathNode());
         //    EndpointList.Add("applications", "https://api.newrelic.com/v2/applications.json");
         //    EndpointList.Add("keyTransactions", "https://api.newrelic.com/v2/key_transactions.json");
         //    EndpointList.Add("servers", "https://api.newrelic.com/v2/servers.json");
@@ -77,30 +78,30 @@ namespace NewRelicApiPoshProvider
         }
     }
 
-    class EndpointListPathNode : PathNodeBase
-    {
-        private readonly string _model;
-        private readonly string _endpoint;
+    //class EndpointListPathNode : PathNodeBase
+    //{
+    //    private readonly string _model;
+    //    private readonly string _endpoint;
 
-        public EndpointListPathNode(string key, string value)
-        {
-            _model = key;
-            _endpoint = value;
-        }
+    //    public EndpointListPathNode(string key, string value)
+    //    {
+    //        _model = key;
+    //        _endpoint = value;
+    //    }
 
-        public override IPathValue GetNodeValue()
-        {
-            return new LeafPathValue(_model, Name);
-        }
+    //    public override IPathValue GetNodeValue()
+    //    {
+    //        return new LeafPathValue(_model, Name);
+    //    }
 
-        public override string Name
-        {
-            get { return _model; }
-        }
+    //    public override string Name
+    //    {
+    //        get { return _model; }
+    //    }
 
-        public string Endpoint
-        {
-            get { return _endpoint; }
-        }
-    }
+    //    public string Endpoint
+    //    {
+    //        get { return _endpoint; }
+    //    }
+    //}
 }
