@@ -11,6 +11,7 @@ using CodeOwls.PowerShell.Paths.Processors;
 using CodeOwls.PowerShell.Provider.PathNodes;
 using System.Configuration;
 using RestSharp;
+using NewRelicAPIPoshProvider.Paths;
 
 
 namespace NewRelicApiPoshProvider
@@ -49,22 +50,24 @@ namespace NewRelicApiPoshProvider
 
     class EndpointListNode : PathNodeBase
     {
-        private Dictionary<string, string> EndpointList = new Dictionary<string, string>();
+         List<IPathNode> endPointList = new List<IPathNode>();       
+
+        //private Dictionary<string, string> EndpointList = new Dictionary<string, string>();
 
         public EndpointListNode()
         {
-
-            EndpointList.Add("applications", "https://api.newrelic.com/v2/applications.json");
-            EndpointList.Add("keyTransactions", "https://api.newrelic.com/v2/key_transactions.json");
-            EndpointList.Add("servers", "https://api.newrelic.com/v2/servers.json");
-            EndpointList.Add("alertPolicies", "https://api.newrelic.com/v2/alert_policies.json");
-            EndpointList.Add("notificationChannels", "https://api.newrelic.com/v2/notification_channels.json");
-            EndpointList.Add("users", "https://api.newrelic.com/v2/users.json");
+            endPointList.Add(new ApplicationsPathNode());
+        //    EndpointList.Add("applications", "https://api.newrelic.com/v2/applications.json");
+        //    EndpointList.Add("keyTransactions", "https://api.newrelic.com/v2/key_transactions.json");
+        //    EndpointList.Add("servers", "https://api.newrelic.com/v2/servers.json");
+        //    EndpointList.Add("alertPolicies", "https://api.newrelic.com/v2/alert_policies.json");
+        //    EndpointList.Add("notificationChannels", "https://api.newrelic.com/v2/notification_channels.json");
+        //    EndpointList.Add("users", "https://api.newrelic.com/v2/users.json");
         }
 
         public override IPathValue GetNodeValue()
         {
-            return new ContainerPathValue(EndpointList, Name);
+            return new ContainerPathValue(endPointList, Name);
         }
 
         public override string Name
@@ -74,10 +77,14 @@ namespace NewRelicApiPoshProvider
 
         public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
         {
-            Dictionary<string, string>.KeyCollection keyColl = EndpointList.Keys;
+            //Dictionary<string, string>.KeyCollection keyColl = EndpointList.Keys;
 
-            return from endpoint in EndpointList
-                   select new EndpointListPathNode(endpoint.Key, endpoint.Value) as IPathNode;
+            //return from endpoint in EndpointList
+            //       select new EndpointListPathNode(endpoint.Key, endpoint.Value) as IPathNode;
+
+
+
+            return endPointList;
         }
     }
 
