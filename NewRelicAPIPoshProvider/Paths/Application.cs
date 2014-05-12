@@ -12,7 +12,7 @@ using System.Configuration;
 using RestSharp;
 using NewRelicApiPoshProvider;
 using NewRelicAPIPoshProvider.Items;
-
+using Newtonsoft.Json;
 
 namespace NewRelicAPIPoshProvider.Paths
 {
@@ -41,10 +41,17 @@ namespace NewRelicAPIPoshProvider.Paths
             var request = new RestRequest(Method.GET);
             request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
 
-            IRestResponse<ListApplications> response = client.Execute<ListApplications>(request);
+            IRestResponse response = client.Execute(request);
 
-            return from Application application in response.Data.Applications
-                        select new ApplicationPathNode(application) as IPathNode;
+            ListApplications applications = JsonConvert.DeserializeObject<ListApplications>(response.Content);
+
+            return from Application application in applications.Applications
+                   select new ApplicationPathNode(application) as IPathNode;
+
+            //IRestResponse<ListApplications> response = client.Execute<ListApplications>(request);
+
+            //return from Application application in response.Data.Applications
+            //            select new ApplicationPathNode(application) as IPathNode;
         }
     }
 
@@ -75,10 +82,17 @@ namespace NewRelicAPIPoshProvider.Paths
             var request = new RestRequest(Method.GET);
             request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
 
-            IRestResponse<ListMetricName> response = client.Execute<ListMetricName>(request);
+            IRestResponse response = client.Execute(request);
 
-            return from metricName in response.Data.Metrics
+            ListMetricName metricNames = JsonConvert.DeserializeObject<ListMetricName>(response.Content);
+
+            return from metricName in metricNames.Metrics
                    select new ApplicationMetricNamesPathNode(metricName, _application.Id) as IPathNode;
+
+            //IRestResponse<ListMetricName> response = client.Execute<ListMetricName>(request);
+
+            //return from metricName in response.Data.Metrics
+            //       select new ApplicationMetricNamesPathNode(metricName, _application.Id) as IPathNode;
 
         }
     }
@@ -115,11 +129,20 @@ namespace NewRelicAPIPoshProvider.Paths
             request.AddParameter("application_id", _applicationId);
             request.AddParameter("names[]", _metricName.Name);
 
-            IRestResponse<MetricData> response = client.Execute<MetricData>(request);
+            IRestResponse response = client.Execute(request);
 
+            List<MetricData> metricData = new List<MetricData>();
+            metricData.Add(JsonConvert.DeserializeObject<MetricData>(response.Content));
 
-            return from metricData in response.Data as IEnumerable<MetricData>
-                   select new ApplicationMetricDataPathNode(metricData) as IPathNode;
+            //MetricData metricData = JsonConvert.DeserializeObject<MetricData>(response.Content);
+
+            return from data in metricData
+                   select new ApplicationMetricDataPathNode(data) as IPathNode;
+
+            //IRestResponse<MetricData> response = client.Execute<MetricData>(request);
+
+            //return from metricData in response.Data as IEnumerable<MetricData>
+            //       select new ApplicationMetricDataPathNode(metricData) as IPathNode;
 
         }
     }

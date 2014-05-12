@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace NewRelicAPIPoshProvider.Items
 {
@@ -16,6 +17,7 @@ namespace NewRelicAPIPoshProvider.Items
         public bool Reporting { get; set; }
         public DateTime Last_Reported_At { get; set; }
         public ApplicationSummary Application_Summary { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public EndUserSummary End_User_Summary { get; set; }
         public Setting Settings { get; set; }
         public Link Links { get; set; }
@@ -26,7 +28,9 @@ namespace NewRelicAPIPoshProvider.Items
         {
             public float Response_Time { get; set; }
             public float Throughput { get; set; }
+            public float Error_Rate { get; set; }
             public float Apdex_Target { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public float Apdex_Score { get; set; }
         }
         public class EndUserSummary
@@ -34,6 +38,7 @@ namespace NewRelicAPIPoshProvider.Items
             public float Response_Time { get; set; }
             public float Throughput { get; set; }
             public float Apdex_Target { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public float Apdex_Score { get; set; }
         }
         public class Setting
