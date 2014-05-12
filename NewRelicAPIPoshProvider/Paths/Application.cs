@@ -18,7 +18,7 @@ namespace NewRelicAPIPoshProvider.Paths
 {
     class ApplicationsPathNode : PathNodeBase
     {
-        private const string _applications = "https://api.newrelic.com/v2/applications.json";
+        private const string _applications = "https://api.newrelic.com";
 
         public ApplicationsPathNode()
         {
@@ -38,7 +38,9 @@ namespace NewRelicAPIPoshProvider.Paths
         {
             var client = new RestClient(_applications);
 
-            var request = new RestRequest(Method.GET);
+            var request = new RestRequest();
+            request.Resource = "/v2/applications.json";
+            request.AddHeader("Accept", "application/json");
             request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
 
             IRestResponse response = client.Execute(request);
@@ -58,7 +60,7 @@ namespace NewRelicAPIPoshProvider.Paths
     class ApplicationPathNode : PathNodeBase
     {
         private readonly Application _application;
-        private const string _metricNamesEndPoint = "https://api.newrelic.com/v2/applications/{0}/metrics.json";
+        private const string _metricNamesEndPoint = "https://api.newrelic.com";
 
         public ApplicationPathNode(Application application)
         {
@@ -77,10 +79,13 @@ namespace NewRelicAPIPoshProvider.Paths
 
         public override IEnumerable<IPathNode> GetNodeChildren(CodeOwls.PowerShell.Provider.PathNodeProcessors.IProviderContext providerContext)
         {
-            var client = new RestClient(string.Format(_metricNamesEndPoint, _application.Id));
+            var client = new RestClient(_metricNamesEndPoint);
 
-            var request = new RestRequest(Method.GET);
+            var request = new RestRequest();
+            request.Resource = "/v2/applications/{applicationId}/metrics.json";
+            request.AddHeader("Accept", "application/json");
             request.AddHeader("X-Api-Key", providerContext.Drive.Credential.UserName);
+            request.AddParameter("applicationId", _application.Id, ParameterType.UrlSegment);
 
             IRestResponse response = client.Execute(request);
 
