@@ -48,4 +48,36 @@ namespace NewRelicAPIPoshProvider.Items
             public List<Int32> Servers { get; set; }
         }
     }   
+
+    public class ListMetricName
+    {
+        public List<MetricName> Metrics { get; set; }
+    }
+
+    public class MetricName
+    {
+        public string Name { get; set; }
+        public List<string> Values { get; set; }
+    }
+
+    public class MetricData
+    {
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+        public MetricsModel Metrics { get; set; }
+
+        public class MetricsModel
+        {
+            public string Name { get; set; }
+            public int MyProperty { get; set; }
+            public List<ListTimeSlices> TimeSlices { get; set; }
+
+            public class ListTimeSlices
+            {
+                public DateTime From { get; set; }
+                public DateTime To { get; set; }
+                public Dictionary<string,string> Values { get; set; }
+            }
+        }
+    }
 }
