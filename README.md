@@ -23,8 +23,7 @@ PS nr:\applications\ApplicationName\agent_metrics_count> gci
 
 
 SSItemMode    :    <
-PSPath        : NewRelicAPIPoshProvider\NewRelicApi::applications\Private
-                API\agent_metrics_count\Data
+PSPath        : NewRelicAPIPoshProvider\NewRelicApi::applications\ApplicationName\agent_metrics_count\Data
 PSParentPath  : NewRelicAPIPoshProvider\NewRelicApi::applications\ApplicationName\agent_metrics_count
 PSChildName   : Data
 PSDrive       : nr
