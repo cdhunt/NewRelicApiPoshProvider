@@ -11,6 +11,12 @@ cd nr:/
 ```
 
 ```powershell
+PS nr:\> gci
+Applications
+Servers
+```
+
+```powershell
 PS nr:\> gci applications | select Name, Health_Status, Last_Reported_At
 ```
 
